@@ -1,3 +1,5 @@
+LZMA_BIN := /usr/bin/lzma
+
 LOCAL_PATH := $(call my-dir)
 
 ## Build and run dtbtool
@@ -27,6 +29,10 @@ $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES) $(INSTAL
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) $(INSTALLED_DTIMAGE_TARGET) \
 		$(recovery_ramdisk) \
 		$(recovery_kernel)
+
+	@echo  -e ${CL_CYN}"----- Compressing recovery ramdisk with lzma ------"${CL_RST}
+	$(hide) gunzip -f < $(recovery_ramdisk) | lzma -e > $(recovery_ramdisk).lzma
+	$(hide) mv $(recovery_ramdisk).lzma $(recovery_ramdisk)
 	@echo -e ${CL_CYN}"----- Making recovery image ------"${CL_RST}
 	$(hide) $(MKBOOTIMG) $(INTERNAL_RECOVERYIMAGE_ARGS) --dt $(INSTALLED_DTIMAGE_TARGET) --ramdisk_offset $(BOARD_RAMDISK_OFFSET) --tags_offset $(BOARD_KERNEL_TAGS_OFFSET) --output $@
 	$(hide) $(call assert-max-image-size,$@,$(BOARD_RECOVERYIMAGE_PARTITION_SIZE),raw)
