@@ -37,7 +37,7 @@ PRODUCT_COPY_FILES += \
 
 # TWRP
 PRODUCTY_COPY_FILES += \
-    device/yu/tomato/rootdir/etc/twrp.fstab:recovery/root/etc/twrp.fstab
+    device/xiaomi/ferrari/rootdir/etc/twrp.fstab:recovery/root/etc/twrp.fstab
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
